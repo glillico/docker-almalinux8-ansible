@@ -1,12 +1,12 @@
-FROM almalinux/almalinux:8
+FROM almalinux:8
 LABEL maintainer="Graham Lillico"
 
 ENV container docker
 
 # Update packages to the latest version
 RUN dnf -y update \
-&& dnf clean all \
-&& dnf -y autoremove
+&& dnf -y autoremove \
+&& dnf clean all
 
 # Configure systemd.
 # See https://hub.docker.com/_/centos/ for details.
