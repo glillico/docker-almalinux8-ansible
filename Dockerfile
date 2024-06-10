@@ -35,14 +35,16 @@ sudo \
 && rm -rf /var/cache/dnf/*
 
 # Upgrade pip.
-RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade pip \
+&& python3 -m pip cache purge
 
 # Install ansible.
-RUN pip3 install ansible
+RUN pip3 install "ansible<10.0" \
+&& python3 -m pip cache purge
 
-# Create ansible directory and copy ansible inventory file.
+# Create ansible directory and create ansible inventory file.
 RUN mkdir /etc/ansible
-COPY hosts /etc/ansible/hosts
+RUN echo -e "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/lib/systemd/systemd"]
